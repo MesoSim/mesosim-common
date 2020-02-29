@@ -11,7 +11,7 @@ from math import floor
 import pandas as pd
 from pyproj import Geod
 
-city_csv = "uscitiesv1.4.csv"  # from https://simplemaps.com/data/us-cities
+city_csv = "us_cities.csv"  # from https://simplemaps.com/data/us-cities
 g = Geod("sphere")  # set up Geod
 
 
