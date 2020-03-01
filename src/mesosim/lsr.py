@@ -1,3 +1,6 @@
+# Copyright (c) 2020 MesoSim Developers.
+# Distributed under the terms of the Apache 2.0 License.
+# SPDX-License-Identifier: Apache-2.0
 """
 LSR-specific helper functions
 
@@ -11,7 +14,7 @@ from math import floor
 import pytz
 from dateutil import parser
 
-from .Timing import cur_time_from_arc
+from .core.timing import cur_time_from_arc
 
 
 # Go from lsr `type` to gr_icon (also used to just keep our LSRs of interest)

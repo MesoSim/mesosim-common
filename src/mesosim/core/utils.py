@@ -1,17 +1,14 @@
-#!/usr/bin/env python
-
-"""
-Helper Functions for Chase Applet
-
-These are the functions to make the chase applet work.
-"""
+# Copyright (c) 2020 MesoSim Developers.
+# Distributed under the terms of the Apache 2.0 License.
+# SPDX-License-Identifier: Apache-2.0
+r"""Core utils documentation TODO"""
 
 from math import floor
 
 import pandas as pd
 from pyproj import Geod
 
-city_csv = "us_cities.csv"  # from https://simplemaps.com/data/us-cities
+city_csv = "../us_cities.csv"  # from https://simplemaps.com/data/us-cities
 g = Geod("sphere")  # set up Geod
 
 
@@ -84,3 +81,10 @@ def direction_angle_to_str(angle):
         "NNW",
     ]
     return angle_str_list[idx]
+
+
+def maybe_cast_float(number):
+    try:
+        return float(number)
+    except ValueError:
+        return None

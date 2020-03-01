@@ -1,3 +1,6 @@
+# Copyright (c) 2020 MesoSim Developers.
+# Distributed under the terms of the Apache 2.0 License.
+# SPDX-License-Identifier: Apache-2.0
 """
 Warning-related helper functions
 """
@@ -8,7 +11,7 @@ import re
 import pytz
 from dateutil import parser, tz
 
-from .Timing import cur_time_from_arc
+from .core.timing import cur_time_from_arc
 
 
 # Process the warning text (heavy lifiting!)
