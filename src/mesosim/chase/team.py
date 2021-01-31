@@ -23,7 +23,7 @@ class Team:
     active_hazards = []
     previous_active_hazard_tuples = []
 
-    def __init__(self, path, config):
+    def __init__(self, path, hazard_registry, config):
         """Construct underlying database connection, and set initial state."""
         self.con = sql.connect(path)
         self.cur = self.con.cursor()
@@ -37,8 +37,9 @@ class Team:
             "status='active'"
         )
         for hazard_tuple in self.cur.fetchall():
+            hazard = hazard_registry[hazard_tuple[0]].update_from_tuple(hazard_tuple)
             self.previous_active_hazard_tuples.append(hazard_tuple)
-            self.active_hazards.append(Hazard.from_hazard_tuple(hazard_tuple))
+            self.active_hazards.append(hazard)
 
         self.config = config
         self.vehicle = Vehicle(self.status["vehicle"], config)
@@ -132,9 +133,9 @@ class Team:
     def apply_action(self, action):
         """Apply the action to this team.
 
-        Same thing as action.alter_status(team).
+        Same thing as action.alter_status(team, config, action).
         """
-        action.alter_status(self)
+        action.alter_status(self, self.config, action)
 
     def dismiss_action(self, action):
         """Dismiss action from the action queue."""
@@ -146,7 +147,7 @@ class Team:
 
     def apply_hazard(self, hazard):
         """Apply the hazard to this team."""
-        hazard.alter_status(self)
+        hazard.alter_status(self, self.config, hazard)
         self.active_hazards.append(hazard)
 
     def write_status(self):
