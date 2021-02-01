@@ -48,7 +48,10 @@ class Team:
     def can_refuel(self):
         """Determine if this team can refuel."""
         _, _, distance, _ = nearest_city(self.latitude, self.longitude, self.config)
-        return distance is not None and distance <= self.config.min_town_distance_refuel
+        return (
+            (distance is not None and distance <= self.config.min_town_distance_refuel)
+            or self.fuel_level <= 0
+        )
 
     @property
     def speed_locked(self):
@@ -263,6 +266,7 @@ class Team:
                     level=self.fuel_level, percent=fuel_percent
                 )
             ),
+            "fuel_on_empty_fee": self.fuel_level <= 0,
             "fuel_color": fuel_color,
             "can_refuel": self.can_refuel,
             "current_mpg": self.vehicle.calculate_mpg(self.speed),
