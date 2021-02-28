@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	<link href="stylesheet.css" rel="stylesheet">
+	
+	<title>Tutorial</title>
+  </head>
+  <body>
+  
+	<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-6">
+					<p class="h1 text-light">## TEAM NAME ##</p>
+				</div>
+				<div class="col-md-6">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-danger right" data-bs-toggle="modal" data-bs-target="#pModal">
+					Placefiles and Team Code
+				</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="pModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Things you will need..</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+							## Chase Car Placefile ##
+							## LSR Placefile ##
+							## Team Code ##
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+			<div class="row justify-content-md-center">
+                <div class="col col-md-6">
+                    <div class="status">
+                        <table class="table table-bordered table-sm">
+                            <tr>
+                                <th scope="row">Location</th>
+                                <td>42.089, -93.768 (5 Mi E Boone, IA)</td>
+                            </tr>
+                            <tr class="table-warning">
+                                <th scope="row">Status</th>
+                                <td>In Chaser Convergence</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fuel</th>
+                                <td>5 gallons (40%) remaining <button class="btn btn-sm btn-light align-right">Refuel</button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Balance</th>
+                                <td>$75.00</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Points</th>
+                                <td>15</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="control">
+                        <div class="row">
+                            <div class="col">
+                                <input class="custom-range" type="range" min="0" max="135" id="speedRange" value="45"><br>
+                                Current Speed: <span id="currentSpeed">45</span> mph<br>
+                                Current Max Speed: <span class="text-warning" id="maxSpeed">45 mph</span>
+                            </div>
+<tr>
+                                <th scope="row">Fuel</th>
+                                <td>5 gallons (40%) remaining <button class="btn btn-sm btn-light align-right">Refuel</button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Balance</th>
+                                <td>$75.00</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Points</th>
+                                <td>15</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="control">
+                        <div class="row">
+                            <div class="col">
+                                <input class="custom-range" type="range" min="0" max="135" id="speedRange" value="45"><br>
+                                Current Speed: <span id="currentSpeed">45</span> mph<br>
+                                Current Max Speed: <span class="text-warning" id="maxSpeed">45 mph</span>
+                            </div>
+                            <div class="col">
+                                <div style="max-width: 200px;" class="row">
+                                    <button class="btn btn-secondary dir-button">NW</button>
+                                    <button class="btn btn-secondary dir-button">N</button>
+                                    <button class="btn btn-primary dir-button">NE</button>
+                                    <button class="btn btn-secondary dir-button">W</button>
+                                    <button class="btn btn-secondary dir-button">Stop</button>
+                                    <button class="btn btn-secondary dir-button">E</button>
+                                    <button class="btn btn-secondary dir-button">SW</button>
+                                    <button class="btn btn-secondary dir-button">W</button>
+                                    <button class="btn btn-secondary dir-button">SE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					<div class="messages">
+                        <p class="messages text-monospace">
+                            0300Z: You are stuck in chaser convergence<br>
+                            0255Z: You are stuck in chaser convergence<br>
+                            0250Z: You are stuck in chaser convergence<br>
+                            0245Z: You are stuck in chaser convergence<br>
+                            0240Z: You are stuck in chaser convergence<br>
+                            0235Z: You are stuck in chaser convergence<br>
+                            0230Z: You are stuck in chaser convergence<br>
+                            0225Z: You are stuck in chaser convergence<br>
+                            0220Z: You are stuck in chaser convergence<br>
+                            0215Z: You are stuck in chaser convergence<br>
+                            0210Z: You are stuck in chaser convergence<br>
+                            0205Z: You are stuck in chaser convergence<br>
+                            0200Z: You are stuck in chaser convergence<br>
+                            0155Z: You are stuck in chaser convergence<br>
+                            0150Z: You are stuck in chaser convergence<br>
+                            0145Z: You are stuck in chaser convergence<br>
+                            0140Z: You are stuck in chaser convergence<br>
+                        </p>
+                    </div>
+
+			<div class="row justify-content-xs-center">
+				<h2>Team Score Leaders</h2>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	
+	
+	frontend_template
+	  
+  	<script src="jquery.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="/bootstrap/js/bootstrap.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+  </body>
+</html>
