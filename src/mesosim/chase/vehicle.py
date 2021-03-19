@@ -24,7 +24,7 @@ class Vehicle:
         data = self._query(
             (
                 "SELECT print_name, top_speed, top_speed_on_dirt, "
-                "efficient_speed, mpg, fuel_cap, stuck_probability FROM"
+                "efficient_speed, mpg, fuel_cap, stuck_probability, traction_rating, FROM"
                 "vehicles WHERE vehicle_type = ?"
             ),
             [vehicle_type],
@@ -40,6 +40,7 @@ class Vehicle:
             self.mpg = float(data[0][4])
             self.fuel_cap = float(data[0][5])
             self.stuck_probability = float(data[0][6])
+            self.traction_rating = data[0][7]
 
     def _query(self, *args):
         # Run a DB query on the DB cursor given
