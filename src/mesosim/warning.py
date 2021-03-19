@@ -28,10 +28,7 @@ def process_warning_text(warning, timings):
 
     matches = list(
         re.finditer(
-            (
-                r"(?P<timestamp>[0-9]{2}(0[1-9]|1[0-2])([0-2][1-9]|3[0-1])T"
-                + r"(([0-1][0-9])|(2[0-3]))([0-5][0-9])Z)"
-            ),
+            r"(?P<timestamp>[0-9]{6}T[0-9]{4}Z)",
             warning,
         )
     )
