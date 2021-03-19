@@ -42,7 +42,11 @@ class Team:
             self.active_hazards.append(hazard)
 
         self.config = config
-        self.vehicle = Vehicle(self.status["vehicle"], config)
+        vehicle_id = self.status["vehicle"]
+        if vehicle_id is not None:
+            self.vehicle = Vehicle(vehicle_id, config)
+        else
+            self.vehicle = None
 
     @property
     def can_refuel(self):
@@ -102,7 +106,10 @@ class Team:
         status_color
         status_text
         """
-        return self.status[name]
+        try:
+            return self.status[name]
+        except KeyError:
+            return None
 
     def __setattr__(self, name, value):
         """Fall back to status.
