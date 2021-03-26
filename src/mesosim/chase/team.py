@@ -50,7 +50,7 @@ class Team:
     @property
     def can_refuel(self):
         """Determine if this team can refuel."""
-        if self.latitude is None:
+        if self.latitude is None or self.fuel_level is None:
             return False
         _, _, distance, _ = nearest_city(self.latitude, self.longitude, self.config)
         return (
