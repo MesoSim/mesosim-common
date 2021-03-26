@@ -276,7 +276,7 @@ class Team:
     def output_status_dict(self):
         """Output the dict for JSON to web app."""
         color = {"green": "success", "yellow": "warning", "red": "danger"}[
-            self.status["status_color"]
+            self.status.get("status_color", "green")
         ]
 
         city, st, dist, angle = nearest_city(self.lat, self.lon, self.config)
