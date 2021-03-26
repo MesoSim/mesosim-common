@@ -51,7 +51,7 @@ def nearest_city(lat, lon, config):
     for _, row in subset.iterrows():
         forward_az, _, distance_m = g.inv(lon, lat, row["lng"], row["lat"])
         distance_miles = distance_m / 1609.344  # convert
-        angle_degrees = forward_az % 360.0
+        angle_degrees = (forward_az + 180.0) % 360.0
         candidate_cities.append(
             (row["city_ascii"], row["state_id"], distance_miles, angle_degrees)
         )
