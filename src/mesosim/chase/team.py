@@ -342,7 +342,7 @@ class Team:
             balance_color = "info"
 
         output = {
-            "team_id": self.id,
+            "team_id": self.status['id'],
             "location": location_str,
             "status_text": self.status_text,
             "status_color": color,
@@ -357,7 +357,7 @@ class Team:
             "current_mpg": self.vehicle.calculate_mpg(self.speed),
             "balance": money_format(self.balance),
             "balance_color": balance_color,
-            "points": self.points,
+            "points": self.status['points'],
             "speed": self.speed,
             "current_max_speed": self.current_max_speed,
             "direction": self.direction,
