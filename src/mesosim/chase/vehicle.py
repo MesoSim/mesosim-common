@@ -24,7 +24,7 @@ class Vehicle:
         data = self._query(
             (
                 "SELECT print_name, top_speed, top_speed_on_dirt, "
-                "efficient_speed, mpg, fuel_cap, stuck_probability, traction_rating, FROM"
+                "efficient_speed, mpg, fuel_cap, stuck_probability, traction_rating, FROM "
                 "vehicles WHERE vehicle_type = ?"
             ),
             [vehicle_type],
