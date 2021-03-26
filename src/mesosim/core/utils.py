@@ -58,7 +58,7 @@ def nearest_city(lat, lon, config):
 
     # Return closest city (min distance)
     if len(candidate_cities) > 0:
-        return sorted(candidate_cities, key=lambda tup: tup[-1])[0]
+        return sorted(candidate_cities, key=lambda tup: tup[2])[0]
     else:
         return (None,) * 4
 
