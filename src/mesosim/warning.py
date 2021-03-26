@@ -81,9 +81,13 @@ def process_warning_text(warning, timings):
         )
         if match:
             if match.group("zone") == "CDT":
+                zone_txt = "CDT"
                 zone = "-05:00"
+                tz_zone_offset = -18000
             elif match.group("zone") == "MDT":
+                zone_txt = "MDT"
                 zone = "-06:00"
+                tz_zone_offset = -21600
 
             year = int(match.group("year"))
             month = parser.parse(match.group("month")).month
@@ -96,12 +100,12 @@ def process_warning_text(warning, timings):
             )
             arc_utc_time = arc_local_time.astimezone(pytz.UTC)
             cur_utc_time = cur_time_from_arc(arc_utc_time, timings)
-            cur_cdt_time = cur_utc_time.astimezone(tz.tzoffset(None, -18000))
+            cur_local_time = cur_utc_time.astimezone(tz.tzoffset(None, tz_zone_offset))
 
             str_to_swap = []
-            for time_obj in (arc_local_time, cur_cdt_time):
+            for time_obj in (arc_local_time, cur_local_time):
                 swap_time = time_obj.strftime("%-I%M %p")
-                swap_zone = match.group("zone") if time_obj < cur_start_time else "CDT"
+                swap_zone = match.group("zone") if time_obj < cur_start_time else zone_txt
                 swap_weekday = time_obj.strftime("%a").upper()
                 swap_month = time_obj.strftime("%b").upper()
                 swap_day = time_obj.strftime("%-d")
@@ -122,18 +126,22 @@ def process_warning_text(warning, timings):
                 hour = int(match.group("time")[:-2]) + (0 if match.group("apm") == "AM" else 12)
                 minute = int(match.group("time")[-2:])
                 if match.group("zone") == "CDT":
+                    zone_txt = "CDT"
                     zone = "-05:00"
+                    tz_zone_offset = -18000
                 elif match.group("zone") == "MDT":
+                    zone_txt = "MDT"
                     zone = "-06:00"
+                    tz_zone_offset = -21600
 
                 arc_local_time = parser.parse(
                     "{}-{}-{}T{}:{}{}".format(year, month, day, hour, minute, zone)
                 )
                 arc_utc_time = arc_local_time.astimezone(pytz.UTC)
                 cur_utc_time = cur_time_from_arc(arc_utc_time, timings)
-                cur_cdt_time = cur_utc_time.astimezone(tz.tzoffset(None, -18000))
+                cur_local_time = cur_utc_time.astimezone(tz.tzoffset(None, tz_zone_offset))
 
-                replacement = cur_cdt_time.strftime("%-I%M %p") + " CDT"
+                replacement = cur_local_time.strftime("%-I%M %p") + " " + zone_txt
                 text_growth = len(replacement) - len(match.group())
 
                 warning = (

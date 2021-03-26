@@ -46,7 +46,7 @@ def get_hail_pos(type, size):
 
 
 # Create a GR Placefile entry for a lsr tuple
-def gr_lsr_placefile_entry_from_tuple(lsr_tuple, wrap_length):
+def gr_lsr_placefile_entry_from_tuple(lsr_tuple, wrap_length, tz=None):
     return """Object: {lat:.2f}, {lon:.2f}
 Icon: 0,0,000,{icon},{pos},"{text}"
 End:""".format(
@@ -54,16 +54,16 @@ End:""".format(
         lon=lsr_tuple[3],
         icon=type_to_icon(lsr_tuple[8]),
         pos=get_hail_pos(lsr_tuple[9], lsr_tuple[4]),
-        text=("%r" % gr_lsr_text(lsr_tuple, wrap_length=wrap_length))[1:-1],
+        text=("%r" % gr_lsr_text(lsr_tuple, wrap_length=wrap_length, tz=tz))[1:-1],
     )
 
 
 # Create the GR LSR text box text
-def gr_lsr_text(lsr_tuple, wrap_length):
+def gr_lsr_text(lsr_tuple, wrap_length, tz):
     fields = [
         lsr_tuple[9],
         parser.parse(lsr_tuple[10])
-        .astimezone(pytz.timezone("US/Central"))
+        .astimezone(tz)
         .strftime("%-I:%M %p"),
         lsr_tuple[0],
         "{}, {}".format(lsr_tuple[1], lsr_tuple[7]),
