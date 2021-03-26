@@ -96,29 +96,72 @@ class Team:
             return None
 
     def __getattr__(self, name):
-        """Fall back to status.
-
-        Used for
-        --------
-        latitude
-        longitude
-        speed
-        direction
-        fuel_level
-        balance
-        status_color
-        status_text
-        """
+        """Fall back to status."""
         self.status.get(name, None)
 
-    def __setattr__(self, name, value):
-        """Fall back to status.
+    @property
+    def latitude(self):
+        return float(self.status.get('latitude', None))
 
-        See __getattr__."""
-        if name in self.status and name != "status":
-            self.status[name] = value
-        else:
-            super().__setattr__(name, value)
+    @latitude.setter
+    def latitude(self, value):
+        self.status['latitude'] = value
+
+    @property
+    def longitude(self):
+        return float(self.status.get('longitude', None))
+
+    @longitude.setter
+    def longitude(self, value):
+        self.status['longitude'] = value
+
+    @property
+    def speed(self):
+        return float(self.status.get('speed', None))
+
+    @speed.setter
+    def speed(self, value):
+        self.status['speed'] = value
+    
+    @property
+    def direction(self):
+        return int(self.status.get('direction', None))
+
+    @direction.setter
+    def direction(self, value):
+        self.status['direction'] = value
+    
+    @property
+    def fuel_level(self):
+        return float(self.status.get('fuel_level', None))
+
+    @fuel_level.setter
+    def fuel_level(self, value):
+        self.status['fuel_level'] = value
+    
+    @property
+    def balance(self):
+        return float(self.status.get('balance', None))
+
+    @balance.setter
+    def balance(self, value):
+        self.status['balance'] = value
+    
+    @property
+    def status_color(self):
+        return self.status.get('status_color', None)
+
+    @status_color.setter
+    def status_color(self, value):
+        self.status['status_color'] = value
+    
+    @property
+    def status_text(self):
+        return self.status.get('status_text', None)
+
+    @status_text.setter
+    def status_text(self, value):
+        self.status['status_text'] = value
 
     def clear_active_hazards(self):
         """Clear all active hazards."""
