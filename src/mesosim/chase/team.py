@@ -177,7 +177,7 @@ class Team:
     
     @property
     def status_text(self):
-        return self.status.get('status_text', None)
+        return self.status.get('status_text', "")
 
     @status_text.setter
     def status_text(self, value):
@@ -342,7 +342,7 @@ class Team:
             balance_color = "info"
 
         output = {
-            "team_id": self.team_id,
+            "team_id": self.id,
             "location": location_str,
             "status_text": self.status_text,
             "status_color": color,
