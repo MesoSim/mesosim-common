@@ -9,7 +9,7 @@ import pandas as pd
 from pyproj import Geod
 
 city_csv = "../us_cities.csv"  # from https://simplemaps.com/data/us-cities
-g = Geod("sphere")  # set up Geod
+g = Geod(ellps="WGS84")  # set up Geod
 
 
 def move_lat_lon(lat, lon, distance_miles, angle_degrees):
