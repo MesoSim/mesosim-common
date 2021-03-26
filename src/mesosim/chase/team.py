@@ -237,34 +237,39 @@ class Team:
             )
 
         # History table
-        self.cur.execute(
-            (
-                "INSERT INTO team_history (cur_timestamp, arc_timestamp, latitude, "
-                "longitude, speed, direction, status_color, status_text, balance, "
-                "points, fuel_level) VALUES "
-                "(?,?,?,?,?,?,?,?,?,?,?)"
-            ),
-            (
-                [
-                    self.status["last_update"],
-                    arc_time_from_cur(self.status["last_update"], self.config.timings),
-                ]
-                + [
-                    self.status[key]
-                    for key in (
-                        "latitude",
-                        "longitude",
-                        "speed",
-                        "direction",
-                        "status_color",
-                        "status_text",
-                        "balance",
-                        "points",
-                        "fuel_level",
-                    )
-                ]
-            ),
-        )
+        try:
+            history_status = [
+                self.status[key]
+                for key in (
+                    "latitude",
+                    "longitude",
+                    "speed",
+                    "direction",
+                    "status_color",
+                    "status_text",
+                    "balance",
+                    "points",
+                    "fuel_level",
+                )
+            ]
+            self.cur.execute(
+                (
+                    "INSERT INTO team_history (cur_timestamp, arc_timestamp, latitude, "
+                    "longitude, speed, direction, status_color, status_text, balance, "
+                    "points, fuel_level) VALUES "
+                    "(?,?,?,?,?,?,?,?,?,?,?)"
+                ),
+                (
+                    [
+                        self.status["last_update"],
+                        arc_time_from_cur(self.status["last_update"], self.config.timings),
+                    ]
+                    + history_status
+                ),
+            )
+        except KeyError:
+            # If we don't have the full status yet (i.e., setup, skip)
+            pass
 
         # Hazards
         for active_hazard in self.active_hazards:
