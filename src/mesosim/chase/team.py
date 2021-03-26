@@ -231,10 +231,17 @@ class Team:
         self.status["last_update"] = datetime.now(tz=pytz.UTC).strftime(db_time_fmt)
 
         # Current team status table
+        self.cur.execute("SELECT team_setting FROM team_info")
+        current_keys = set(row[0] for row in self.cur.fetchall())
         for key, value in self.status.items():
-            self.cur.execute(
-                "UPDATE team_info SET team_value = ? WHERE team_setting = ?", [value, key]
-            )
+            if key in current_keys:
+                self.cur.execute(
+                    "UPDATE team_info SET team_value = ? WHERE team_setting = ?", [value, key]
+                )
+            else:
+                self.cur.execute(
+                    "INSERT INTO team_info (team_setting, team_value) VALUES (?,?)", [key, value]
+                )
 
         # History table
         try:
