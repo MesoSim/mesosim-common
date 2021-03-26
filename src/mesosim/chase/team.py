@@ -102,7 +102,7 @@ class Team:
         self.status.get(name, None)
 
     @property
-    def team(self):
+    def name(self):
         try:
             return self.status['name']
         except:
