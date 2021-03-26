@@ -283,14 +283,14 @@ def create_hazard_registry(config):
     #############
     # Flat tire #
     #############
-    pay_for_flat_init = np.random.random() < config.hazard_config("pay_for_flat_prob")
+    pay_for_flat_init = np.random.random() < float(config.hazard_config("pay_for_flat_prob"))
 
     def flat_tire_alter_status(team, config, hazard):
         team.speed = 0.0
         team.status_color = "red"
         team.status_text = "Flat Tire!"
         if pay_for_flat_init:
-            team.balance -= config.hazard_config("pay_for_flat_amt")
+            team.balance -= float(config.hazard_config("pay_for_flat_amt"))
 
     flat_tire_prob = config.hazard_config("flat_tire_prob")
     if pay_for_flat_init:
