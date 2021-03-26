@@ -42,7 +42,7 @@ class Team:
             self.active_hazards.append(hazard)
 
         self.config = config
-        vehicle_id = self.status["vehicle"]
+        vehicle_id = self.status.get("vehicle", None)
         if vehicle_id is not None:
             self.vehicle = Vehicle(vehicle_id, config)
         else:
