@@ -50,6 +50,8 @@ class Team:
     @property
     def can_refuel(self):
         """Determine if this team can refuel."""
+        if self.latitude is None:
+            return False
         _, _, distance, _ = nearest_city(self.latitude, self.longitude, self.config)
         return (
             (distance is not None and distance <= self.config.min_town_distance_refuel)
@@ -297,35 +299,47 @@ class Team:
             self.status.get("status_color", "green")
         ]
 
-        city, st, dist, angle = nearest_city(self.latitude, self.longitude, self.config)
-        if city is None:
-            location_str = "{lat:.3f}, {lat:.3f} (Middle of Nowhere)".format(
-                lat=self.latitude, lon=self.longitude
-            )
+        if self.latitude is None:
+            location_str = "(Not Set)"
         else:
-            location_str = "{lat:.3f}, {lat:.3f} ({dist:.0f} Mi {ang} {city},{st})".format(
-                lat=self.latitude,
-                lon=self.longitude,
-                dist=dist,
-                ang=direction_angle_to_str(angle),
-                city=city,
-                st=st,
-            )
+            city, st, dist, angle = nearest_city(self.latitude, self.longitude, self.config)
+            if city is None:
+                location_str = "{lat:.3f}, {lat:.3f} (Middle of Nowhere)".format(
+                    lat=self.latitude, lon=self.longitude
+                )
+            else:
+                location_str = "{lat:.3f}, {lat:.3f} ({dist:.0f} Mi {ang} {city},{st})".format(
+                    lat=self.latitude,
+                    lon=self.longitude,
+                    dist=dist,
+                    ang=direction_angle_to_str(angle),
+                    city=city,
+                    st=st,
+                )
 
-        fuel_percent = self.fuel_level / self.vehicle.fuel_cap * 100
-        if fuel_percent > 25:
-            fuel_color = "success"
-        elif fuel_percent > 5:
-            fuel_color = "warning"
-        else:
-            fuel_color = "danger"
+        try:
+            fuel_percent = self.fuel_level / self.vehicle.fuel_cap * 100
+            if fuel_percent > 25:
+                fuel_color = "success"
+            elif fuel_percent > 5:
+                fuel_color = "warning"
+            else:
+                fuel_color = "danger"
+            fuel_level = self.fuel_level
+        except:
+            fuel_color = "info"
+            fuel_level = 0
+            fuel_percent = 0
 
-        if self.balance > 100:
-            balance_color = "success"
-        elif self.balance > 0:
-            balance_color = "warning"
-        else:
-            balance_color = "danger"
+        try:
+            if self.balance > 100:
+                balance_color = "success"
+            elif self.balance > 0:
+                balance_color = "warning"
+            else:
+                balance_color = "danger"
+        except:
+            balance_color = "info"
 
         output = {
             "team_id": self.team_id,
@@ -334,10 +348,10 @@ class Team:
             "status_color": color,
             "fuel_text": (
                 "{level:.1f} gallons ({percent:.0f}%) remaining".format(
-                    level=self.fuel_level, percent=fuel_percent
+                    level=fuel_level, percent=fuel_percent
                 )
             ),
-            "fuel_on_empty_fee": self.fuel_level <= 0,
+            "fuel_on_empty_fee": fuel_level <= 0,
             "fuel_color": fuel_color,
             "can_refuel": self.can_refuel,
             "current_mpg": self.vehicle.calculate_mpg(self.speed),

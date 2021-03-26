@@ -49,6 +49,8 @@ class Vehicle:
 
     def calculate_mpg(self, current_speed):
         # Calculate mpg based on current speed and vehicle specs
+        if current_speed is None:
+            return self.mpg
         if current_speed <= self.efficient_speed:
             multiplier = 1 + (
                 (current_speed - self.efficient_speed) ** 4 * (3 / self.efficient_speed ** 4)

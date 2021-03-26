@@ -22,7 +22,10 @@ def move_lat_lon(lat, lon, distance_miles, angle_degrees):
 
 def money_format(money):
     # Make a nice money string from a float
-    return "${:,.2f}".format(money)
+    if money is not None:
+        return "${:,.2f}".format(money)
+    else:
+        return ""
 
 
 def nearest_city(lat, lon, config):
