@@ -274,7 +274,7 @@ def create_hazard_registry(config):
                 message_end="The chaser convergence has cleared.",
                 duration_min=(
                     1.0 + (cc_speed_limit_init - 15) / 30
-                    + np.random.random() * (1 + (cc_speed_limit_init - 15) / 15)**1.5706)
+                    + np.random.random() * (1 + (cc_speed_limit_init - 15) / 15)**1.5706
                 ),
                 speed_limit=cc_speed_limit_init,
             )

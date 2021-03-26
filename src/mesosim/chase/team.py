@@ -45,7 +45,7 @@ class Team:
         vehicle_id = self.status["vehicle"]
         if vehicle_id is not None:
             self.vehicle = Vehicle(vehicle_id, config)
-        else
+        else:
             self.vehicle = None
 
     @property
