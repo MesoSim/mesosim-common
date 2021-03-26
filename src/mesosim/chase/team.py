@@ -247,7 +247,7 @@ class Team:
             (
                 [
                     self.status["last_update"],
-                    arc_time_from_cur(self.status["last_update"], self.config.timing),
+                    arc_time_from_cur(self.status["last_update"], self.config.timings),
                 ]
                 + [
                     self.status[key]
