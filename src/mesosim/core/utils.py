@@ -9,7 +9,7 @@ from pathlib import Path
 import pandas as pd
 from pyproj import Geod
 
-city_csv = Path(__file__).parent.parent / "us_cities.csv"  # from https://simplemaps.com/data/us-cities
+city_csv = Path(__file__).parent / ".." / "us_cities.csv"  # from https://simplemaps.com/data/us-cities
 g = Geod(ellps="WGS84")  # set up Geod
 
 
