@@ -323,11 +323,11 @@ class Team:
         else:
             city, st, dist, angle = nearest_city(self.latitude, self.longitude, self.config)
             if city is None:
-                location_str = "{lat:.3f}, {lat:.3f} (Middle of Nowhere)".format(
+                location_str = "{lat:.3f}, {lon:.3f} (Middle of Nowhere)".format(
                     lat=self.latitude, lon=self.longitude
                 )
             else:
-                location_str = "{lat:.3f}, {lat:.3f} ({dist:.0f} Mi {ang} {city},{st})".format(
+                location_str = "{lat:.3f}, {lon:.3f} ({dist:.0f} Mi {ang} {city},{st})".format(
                     lat=self.latitude,
                     lon=self.longitude,
                     dist=dist,
