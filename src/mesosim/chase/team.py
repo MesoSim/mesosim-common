@@ -101,7 +101,10 @@ class Team:
 
     @property
     def latitude(self):
-        return float(self.status.get('latitude', None))
+        try:
+            return float(self.status['latitude'])
+        except:
+            return None
 
     @latitude.setter
     def latitude(self, value):
@@ -109,7 +112,10 @@ class Team:
 
     @property
     def longitude(self):
-        return float(self.status.get('longitude', None))
+        try:
+            return float(self.status['longitude'])
+        except:
+            return None
 
     @longitude.setter
     def longitude(self, value):
@@ -117,7 +123,10 @@ class Team:
 
     @property
     def speed(self):
-        return float(self.status.get('speed', None))
+        try:
+            return float(self.status['speed'])
+        except:
+            return None
 
     @speed.setter
     def speed(self, value):
@@ -125,7 +134,10 @@ class Team:
     
     @property
     def direction(self):
-        return int(self.status.get('direction', None))
+        try:
+            return int(self.status['direction'])
+        except:
+            return 0
 
     @direction.setter
     def direction(self, value):
@@ -133,7 +145,10 @@ class Team:
     
     @property
     def fuel_level(self):
-        return float(self.status.get('fuel_level', None))
+        try:
+            return float(self.status['fuel_level'])
+        except:
+            return None
 
     @fuel_level.setter
     def fuel_level(self, value):
@@ -141,7 +156,10 @@ class Team:
     
     @property
     def balance(self):
-        return float(self.status.get('balance', None))
+        try:
+            return float(self.status['balance'])
+        except:
+            return None
 
     @balance.setter
     def balance(self, value):
