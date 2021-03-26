@@ -15,7 +15,7 @@ from datetime import datetime
 from dateutil import parser
 
 # Define standard format
-std_fmt = "%Y-%m-%dT%H:%M:%SZ"
+std_fmt = db_time_fmt = "%Y-%m-%dT%H:%M:%SZ"
 
 
 # Archive time given current time
