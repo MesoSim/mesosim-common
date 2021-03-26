@@ -208,7 +208,7 @@ def create_hazard_registry(config):
             Hazard(
                 "dirt_road",
                 dirt_road_alter_status,
-                (lambda x: dirt_road_prob),
+                (lambda x, y, z: dirt_road_prob),
                 "You turned on to a dirt road.",
                 message_end="You are back on pavement.",
                 duration_min=2.0,
@@ -303,7 +303,7 @@ def create_hazard_registry(config):
             Hazard(
                 "flat_tire",
                 flat_tire_alter_status,
-                (lambda x: flat_tire_prob),
+                (lambda x, y, z: flat_tire_prob),
                 flat_msg,
                 message_end="You finally got the flat fixed.",
                 duration_min=3.0 + np.random.random() * 3,
@@ -326,7 +326,7 @@ def create_hazard_registry(config):
             Hazard(
                 "dead_end",
                 dead_end_alter_status,
-                (lambda x: dead_end_prob),
+                (lambda x, y, z: dead_end_prob),
                 "You reached a dead end on this road.",
                 message_end="You can now turn off this road.",
                 duration_min=1.0 + np.random.random(),
@@ -350,7 +350,7 @@ def create_hazard_registry(config):
             Hazard(
                 "flooded_road",
                 flooded_road_alter_status,
-                (lambda x: flooded_road_prob),
+                (lambda x, y, z: flooded_road_prob),
                 "You reached a flooded roadway.",
                 message_end="You can now turn off this road.",
                 duration_min=1.0 + np.random.random(),
@@ -370,7 +370,7 @@ def create_hazard_registry(config):
         Hazard(
             "end_chase",
             end_chase_alter_status,
-            (lambda x: 0.0),
+            (lambda x, y, z: 0.0),
             "...CHASE TERMINATED...",
             duration_min=1000,
             speed_lock=True,
