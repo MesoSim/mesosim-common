@@ -102,6 +102,13 @@ class Team:
         self.status.get(name, None)
 
     @property
+    def team(self):
+        try:
+            return self.status['name']
+        except:
+            return None
+
+    @property
     def latitude(self):
         try:
             return float(self.status['latitude'])
