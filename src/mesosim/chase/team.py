@@ -19,7 +19,6 @@ from .vehicle import Vehicle
 class Team:
     """Class for manipulating team status for the chase."""
 
-    status = {}
     active_hazards = []
     previous_active_hazard_tuples = []
 
@@ -90,7 +89,11 @@ class Team:
     @property
     def last_update(self):
         """Give the datetime of last update (in current time)."""
-        return parser.parse(self.status["last_update"])
+        last = self.status.get("last_update", None)
+        if last is not None:
+            return parser.parse(last)
+        else:
+            return None
 
     def __getattr__(self, name):
         """Fall back to status.
@@ -106,10 +109,7 @@ class Team:
         status_color
         status_text
         """
-        try:
-            return self.status[name]
-        except KeyError:
-            return None
+        self.status.get(name, None)
 
     def __setattr__(self, name, value):
         """Fall back to status.
