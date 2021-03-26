@@ -115,7 +115,10 @@ class Team:
         """Fall back to status.
 
         See __getattr__."""
-        self.status[name] = value
+        if name in self.status and name != "status":
+            self.status[name] = value
+        else:
+            super().__setattr__(name, value)
 
     def clear_active_hazards(self):
         """Clear all active hazards."""
