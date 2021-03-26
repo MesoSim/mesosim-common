@@ -10,7 +10,7 @@ arc_time_from_cur, cur_time_from_arc (use timings)
 """
 
 # Imports
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from dateutil import parser
 
@@ -27,10 +27,10 @@ def arc_time_from_cur(cur_time, timings):
     speed_factor = timings["speed_factor"]
 
     if type(cur_time) is datetime:
-        return arc_start_time + (cur_time - cur_start_time) * speed_factor
+        return arc_start_time + timedelta(seconds=(cur_time - cur_start_time).total_seconds() * speed_factor)
     elif type(cur_time) is str:
         return (
-            arc_start_time + (parser.parse(cur_time) - cur_start_time) * speed_factor
+            arc_start_time + timedelta(seconds=(parser.parse(cur_time) - cur_start_time).total_seconds() * speed_factor)
         ).strftime(std_fmt)
     else:
         raise ValueError("cur_time must be str or datetime.datetime")
@@ -45,10 +45,10 @@ def cur_time_from_arc(arc_time, timings):
     speed_factor = timings["speed_factor"]
 
     if type(arc_time) is datetime:
-        return cur_start_time + (arc_time - arc_start_time) / speed_factor
+        return cur_start_time + timedelta(seconds=(arc_time - arc_start_time).total_seconds() / speed_factor)
     elif type(arc_time) is str:
         return (
-            cur_start_time + (parser.parse(arc_time) - arc_start_time) / speed_factor
+            cur_start_time + timedelta(seconds=(parser.parse(arc_time) - arc_start_time).total_seconds() / speed_factor)
         ).strftime(std_fmt)
     else:
         raise ValueError("arc_time must be str or datetime.datetime")
