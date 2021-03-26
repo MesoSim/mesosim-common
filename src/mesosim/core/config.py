@@ -84,6 +84,9 @@ class Config:
     @property
     def timings(self):
         return dict(
-            (key, self.get_config_value(key))
-            for key in ("cur_start_time", "arc_start_time", "speed_factor")
+            (key, f(self.get_config_value(key)))
+            for key, f in zip(
+                ("cur_start_time", "arc_start_time", "speed_factor"),
+                (lambda x: x, lambda x: x, float)
+            )
         )
