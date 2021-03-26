@@ -279,7 +279,7 @@ class Team:
             self.status.get("status_color", "green")
         ]
 
-        city, st, dist, angle = nearest_city(self.lat, self.lon, self.config)
+        city, st, dist, angle = nearest_city(self.latitude, self.longitude, self.config)
         if city is None:
             location_str = "{lat:.3f}, {lat:.3f} (Middle of Nowhere)".format(
                 lat=self.latitude, lon=self.longitude
