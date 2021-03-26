@@ -359,7 +359,7 @@ class Team:
             "balance_color": balance_color,
             "points": self.points,
             "speed": self.speed,
-            "current_max_speed": self.current_max_speed(),
+            "current_max_speed": self.current_max_speed,
             "direction": self.direction,
             "direction_lock": self.direction_locked,
             "can_move": not self.speed_locked,
