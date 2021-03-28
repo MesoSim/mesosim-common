@@ -173,7 +173,7 @@ def create_hazard_registry(config):
     def speeding_prob(team, config, hazard):
         max_chance = config.hazard_config("speeding_max_chance")
         exceedance = team.speed - config.speed_limit
-        if team.override_hazard("speeding") or exceedance <= 0:
+        if team.override_speeding or exceedance <= 0:
             return 0.0
         elif exceedance < 50:
             return (exceedance / 50) ** 2.5 * max_chance
