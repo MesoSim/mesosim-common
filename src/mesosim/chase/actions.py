@@ -45,7 +45,7 @@ class Action:
         """Generate the message."""
         return datetime.now(tz=pytz.UTC).strftime("%H%MZ") + ": " + self.message
 
-    def alter_status(self, team):
+    def alter_status(self, team, *args):
         """Alter status if needed by action_type."""
         if self.is_adjustment:
             # only adjust if this action is an adjustment
@@ -162,7 +162,7 @@ def create_hazard_registry(config):
     def speeding_alter_status(team, config, hazard):
         if team.speed - config.speed_limit > 15:
             # Ticket!
-            team.balance -= config.hazard_config("speeding_ticket")
+            team.balance -= float(config.hazard_config("speeding_ticket_amt"))
             team.status_text = "Pulled Over and Ticketed"
         else:
             # Warning.
@@ -171,8 +171,8 @@ def create_hazard_registry(config):
         team.status_color = "red"
 
     def speeding_prob(team, config, hazard):
-        max_chance = config.hazard_config("speeding_max_chance")
-        exceedance = team.speed - config.speed_limit
+        max_chance = float(config.hazard_config("speeding_max_chance"))
+        exceedance = team.speed - float(config.speed_limit)
         if team.override_speeding or exceedance <= 0:
             return 0.0
         elif exceedance < 50:
@@ -201,7 +201,7 @@ def create_hazard_registry(config):
         team.status_color = "yellow"
         team.status_text = "On a dirt road"
 
-    dirt_road_prob = config.hazard_config("dirt_road_prob")
+    dirt_road_prob = float(config.hazard_config("dirt_road_prob"))
 
     if "dirt_road" in config.active_hazards:
         hazard_list.append(
@@ -225,8 +225,8 @@ def create_hazard_registry(config):
         team.status_text = "Stuck in mud!"
 
     def stuck_in_mud_prob(team, config, hazard):
-        # Start with zero chance, then ramp up to triple chance at 90 minutes into sim
-        time_mult = max(3.0, (datetime.now(tz=pytz.UTC) - config.start_time).seconds / 1800)
+        # Start with zero chance, then ramp up to set value at 90 minutes into sim
+        time_mult = max(1.0, (datetime.now(tz=pytz.UTC) - config.start_time).total_seconds() / 1800)
         if team.is_hazard_active("dirt_road"):
             return team.vehicle.stuck_probability * time_mult
         else:
@@ -252,17 +252,20 @@ def create_hazard_registry(config):
     cc_speed_limit_init = np.random.choice(np.arange(15, 50, 5))
 
     def cc_alter_status(team, config, hazard):
-        team.speed = hazard.speed_limit
+        team.status["hazard_max_speed"] = hazard.speed_limit
+        if team.speed > team.current_max_speed:
+            team.speed = hazard.speed_limit
         team.status_color = "yellow"
         team.status_text = "Chaser Convergence"
 
+
     def cc_prob(team, config, hazard):
-        # Zero to start, ramping to double by 60 minutes in
-        time_mult = max(2.0, (datetime.now(tz=pytz.UTC) - config.start_time).seconds / 1800)
-        if team.is_hazard_active("dirt_road") or team.speed == 0.0:
+        # Zero to start, ramping to set value by 60 minutes in
+        time_mult = max(1.0, (datetime.now(tz=pytz.UTC) - config.start_time).seconds / 1800)
+        if team.is_hazard_active("dirt_road") or team.speed <= 5:
             return 0.0
         else:
-            return config.hazard_config("cc_prob") * time_mult
+            return float(config.hazard_config("cc_prob")) * time_mult
 
     if "cc" in config.active_hazards:
         hazard_list.append(
@@ -292,7 +295,7 @@ def create_hazard_registry(config):
         if pay_for_flat_init:
             team.balance -= float(config.hazard_config("pay_for_flat_amt"))
 
-    flat_tire_prob = config.hazard_config("flat_tire_prob")
+    flat_tire_prob = float(config.hazard_config("flat_tire_prob"))
     if pay_for_flat_init:
         flat_msg = "You've gotten a flat tire, and it looks like you have to pay for repairs."
     else:
@@ -315,11 +318,11 @@ def create_hazard_registry(config):
     # Dead End #
     ############
     def dead_end_alter_status(team):
-        team.direction = (team.direction + 180) % 360
+        team.direction = (float(team.direction) + 180) % 360
         team.status_color = "yellow"
         team.status_text = "Reached a dead end"
 
-    dead_end_prob = config.hazard_config("dead_end_prob")
+    dead_end_prob = float(config.hazard_config("dead_end_prob"))
 
     if "dead_end" in config.active_hazards:
         hazard_list.append(
@@ -338,12 +341,12 @@ def create_hazard_registry(config):
     # Flooded Road #
     ################
     def flooded_road_alter_status(team):
-        team.direction = (team.direction + 180) % 360
+        team.direction = (float(team.direction) + 180) % 360
         team.status_color = "yellow"
         team.status_text = "Reached a flooded road"
         team.speed /= 2
 
-    flooded_road_prob = config.hazard_config("flooded_road_prob")
+    flooded_road_prob = float(config.hazard_config("flooded_road_prob"))
 
     if "flooded_road" in config.active_hazards:
         hazard_list.append(

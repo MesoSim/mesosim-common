@@ -5,6 +5,8 @@ r"""Team TODO"""
 
 from datetime import datetime
 from sqlite3 import dbapi2 as sql
+import traceback
+import warnings
 
 import numpy as np
 import pytz
@@ -80,8 +82,13 @@ class Team:
             else:
                 return np.nan
 
+        if self.hazard_max_speed is not None:
+            hazard_max_speed = float(self.hazard_max_speed)
+        else:
+            hazard_max_speed = np.nan
+
         return np.nanmin(
-            [self.vehicle.top_speed]
+            [self.vehicle.top_speed, hazard_max_speed]
             + [
                 _find_speed_limit_from_hazard(active_hazard)
                 for active_hazard in self.active_hazards
@@ -176,7 +183,7 @@ class Team:
     
     @property
     def status_color(self):
-        return self.status.get('status_color', None)
+        return self.status.get('status_color', "green")
 
     @status_color.setter
     def status_color(self, value):
@@ -195,6 +202,7 @@ class Team:
         self.active_hazards = []
         self.status_color = "green"
         self.status_text = "Chase On"
+        self.status["hazard_max_speed"] = None
 
     def has_action_queue_item(self):
         self.cur.execute("SELECT * FROM action_queue WHERE action_taken IS NULL")
@@ -252,20 +260,6 @@ class Team:
 
         # History table
         try:
-            history_status = [
-                self.status[key]
-                for key in (
-                    "latitude",
-                    "longitude",
-                    "speed",
-                    "direction",
-                    "status_color",
-                    "status_text",
-                    "balance",
-                    "points",
-                    "fuel_level",
-                )
-            ]
             self.cur.execute(
                 (
                     "INSERT INTO team_history (cur_timestamp, arc_timestamp, latitude, "
@@ -277,12 +271,21 @@ class Team:
                     [
                         self.status["last_update"],
                         arc_time_from_cur(self.status["last_update"], self.config.timings),
+                        self.latitude,
+                        self.longitude,
+                        self.speed,
+                        self.direction,
+                        self.status_color,
+                        self.status_text,
+                        self.balance,
+                        self.points,
+                        self.fuel_level
                     ]
-                    + history_status
                 ),
             )
-        except KeyError:
+        except:
             # If we don't have the full status yet (i.e., setup, skip)
+            warnings.warn(traceback.format_exc())
             pass
 
         # Hazards
