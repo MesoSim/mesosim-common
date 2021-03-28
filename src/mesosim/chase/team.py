@@ -241,6 +241,9 @@ class Team:
         hazard.alter_status(self, self.config, hazard)
         self.active_hazards.append(hazard)
 
+    def is_hazard_active(self, hazard_id):
+        return any(hazard_id == haz.type for haz in self.active_hazards)
+
     def write_status(self):
         """Save the current status of this team in DB."""
         self.status["last_update"] = datetime.now(tz=pytz.UTC).strftime(db_time_fmt)
