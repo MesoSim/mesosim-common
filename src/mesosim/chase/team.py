@@ -179,6 +179,17 @@ class Team:
     @balance.setter
     def balance(self, value):
         self.status['balance'] = value
+
+    @property
+    def points(self):
+        try:
+            return int(float(self.status['points']))
+        except:
+            return 0
+
+    @points.setter
+    def points(self, value):
+        self.status['points'] = value
     
     @property
     def status_color(self):
