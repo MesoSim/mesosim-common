@@ -150,7 +150,7 @@ class Team:
     @property
     def direction(self):
         try:
-            return int(self.status['direction'])
+            return int(float(self.status['direction']))
         except:
             return 0
 
