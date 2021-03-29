@@ -34,9 +34,9 @@ class Team:
             "speed_limit, direction_lock, speed_lock FROM hazard_queue WHERE "
             "status='active'"
         )
-        haz_tuples = self.cur.fetchall()
-        warnings.warn(str(haz_tuples))
-        for hazard_tuple in haz_tuples:
+        self.previous_active_hazard_tuples = []
+        self.active_hazards = []
+        for hazard_tuple in self.cur.fetchall():
             hazard = hazard_registry[hazard_tuple[0]].update_from_tuple(hazard_tuple)
             self.previous_active_hazard_tuples.append(hazard_tuple)
             self.active_hazards.append(hazard)
