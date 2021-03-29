@@ -37,7 +37,9 @@ class Team:
             "speed_limit, direction_lock, speed_lock FROM hazard_queue WHERE "
             "status='active'"
         )
-        for hazard_tuple in self.cur.fetchall():
+        haz_tuples = self.cur.fetchall()
+        warnings.warn(haz_tuples)
+        for hazard_tuple in haz_tuples:
             hazard = hazard_registry[hazard_tuple[0]].update_from_tuple(hazard_tuple)
             self.previous_active_hazard_tuples.append(hazard_tuple)
             self.active_hazards.append(hazard)
@@ -333,7 +335,7 @@ class Team:
                     lat=self.latitude, lon=self.longitude
                 )
             else:
-                location_str = "{lat:.3f}, {lon:.3f} ({dist:.0f} Mi {ang} {city},{st})".format(
+                location_str = "{lat:.3f}, {lon:.3f} ({dist:.0f} Mi {ang} {city}, {st})".format(
                     lat=self.latitude,
                     lon=self.longitude,
                     dist=dist,
