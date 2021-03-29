@@ -21,9 +21,6 @@ from .vehicle import Vehicle
 class Team:
     """Class for manipulating team status for the chase."""
 
-    active_hazards = []
-    previous_active_hazard_tuples = []
-
     def __init__(self, path, hazard_registry, config):
         """Construct underlying database connection, and set initial state."""
         self.con = sql.connect(path)
