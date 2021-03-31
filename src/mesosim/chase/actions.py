@@ -241,7 +241,7 @@ def create_hazard_registry(config):
                 stuck_in_mud_prob,
                 "You've gotten stuck in the mud.",
                 message_end="You finally got unstuck.",
-                duration_min=1.0 + np.random.random() * 7,
+                duration_min=1.0 + np.random.random() * 4,
                 speed_lock=True,
                 direction_lock=True,
                 overridden_by_list=["end_chase"],
