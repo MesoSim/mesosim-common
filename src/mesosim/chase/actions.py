@@ -105,8 +105,8 @@ class Hazard(Action):
             expiry_time=parser.parse(hazard_tuple[1]),
             overridden_by_list=json.loads(hazard_tuple[4]),
             speed_limit=maybe_cast_float(hazard_tuple[5]),
-            direction_lock=bool(hazard_tuple[6]),
-            speed_lock=bool(hazard_tuple[7]),
+            direction_lock=bool(hazard_tuple[6]) and str(hazard_tuple[6]).lower() != "false",
+            speed_lock=bool(hazard_tuple[7]) and str(hazard_tuple[7]).lower() != "false",
         )
 
     def update_from_tuple(self, hazard_tuple):
@@ -115,8 +115,8 @@ class Hazard(Action):
         self.expiry_time = parser.parse(hazard_tuple[1])
         self.overridden_by_list = json.loads(hazard_tuple[4])
         self.speed_limit = maybe_cast_float(hazard_tuple[5])
-        self.direction_lock = bool(hazard_tuple[6])
-        self.speed_lock = bool(hazard_tuple[7])
+        self.direction_lock = bool(hazard_tuple[6]) and str(hazard_tuple[6]).lower() != "false"
+        self.speed_lock = bool(hazard_tuple[7]) and str(hazard_tuple[7]).lower() != "false"
         return self
 
     def to_hazard_tuple(self):
@@ -391,6 +391,7 @@ def shuffle_new_hazard(team, seconds, hazards, config):
     hazard_probs = [seconds / 60 * hazard.probability(team, config, hazard) for hazard in hazard_list]
     # Non-Hazard (remaining chance)
     hazard_list.append(None)
-    hazard_probs.append(max(1.0 - np.sum(hazard_probs), 0.0))
+    hazard_probs.append(max(1.0 - np.sum(hazard_probs), np.sum(hazard_probs)))
     # Select one randomly
-    return np.random.choice(hazard_list, p=hazard_probs)
+    hazard_probs = np.array(hazard_probs)
+    return np.random.choice(hazard_list, p=hazard_probs / hazard_probs.sum())
