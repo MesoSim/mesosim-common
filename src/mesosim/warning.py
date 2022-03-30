@@ -116,7 +116,8 @@ def process_warning_text(warning, timings):
 
             # TODO: this needs to be changed to be a case insensitive swap for cases
             # after the warnings WERE NO LONGER YELLING
-            warning = warning.replace(*str_to_swap)
+            print(str_to_swap)
+            warning = re.sub(*str_to_swap, warning, flags=re.IGNORECASE)
 
             # Now, do likewise (with some magic) for all the '622 PM CDT'
             # after the end of that
